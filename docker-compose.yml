@@ -1,0 +1,28 @@
+version: '3'
+services: 
+    node:
+        build: 
+            context: ./Api
+            dockerfile: Dockerfile
+        volumes: 
+            - './Api:/app'
+        depends_on:
+            - mongo
+        ports: 
+            - 3001:3000
+    
+    mongo:
+        container_name: mongo
+        image: mongo
+        ports: 
+            - '27017:27017'
+    client:
+        build: 
+            context: ./docker-react
+            dockerfile: Dockerfile
+        volumes: 
+                - './docker-react:/app'
+        ports: 
+                - 4200:3000
+        depends_on:
+                - node
